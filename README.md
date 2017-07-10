@@ -7,8 +7,13 @@ We've made it! You're ready to built a React application! Before you start ideat
 1. You must use a Rails API backend with a separate React front-end.
 2. Your backend must have at least one resource. 
 3. Your application must have full CRUD actions for at least one resource. 
-4. You may **NOT** implement authentication or authorization. This means no User model on your API. No log in. No exceptions.
+4. __optional__ Your application can have authentication/authorization. (**reminder use the auth template**)
+5. Modularize your application into seperate files and folders based on purpose of code. 
 
+#### Bonus
+1. Implement a new node package you have never used. (Socket.io, Chart.js, Draggable.js)
+2. Refactor your code using HOCs.
+3. Go above and beyond in styling for animations and transitions.
 
 ### Setup
 
