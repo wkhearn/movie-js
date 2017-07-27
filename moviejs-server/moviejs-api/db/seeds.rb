@@ -22,6 +22,6 @@ ActorMovie.create(actor_id: 3, movie_id: 2)
 
 
 Director.create(name: "Christopher Nolan")
-Movie.create(title: "The Dark Knight", director_id: 3, year: 2008 , rated: "PG-13", runtime: 152)
+Movie.create(title: "The Dark Knight", director_id: 3, year: 2008 , rated: "PG-13", runtime: 155)
 Actor.create(name: "Heath Ledger")
 ActorMovie.create(actor_id: 4, movie_id: 3)
