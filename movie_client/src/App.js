@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import './App.css';
 import SearchBox from './components/SearchBox'
 import Movie from './components/Movie'
+import User from './components/User'
 
+const OURAPI = "http://localhost:3000/api/v1/"
+const OMDBAPI = "http://www.omdbapi.com/?t=+"
+const APIKEY = "&apikey=a93a4d24"
+const OMDBPOSTERAPI = "http://www.img.omdbapi.com/?t="
 
+// TODO: Movie poster is from a different API
+// TODO: Poster API request needs to add "img" in front of link
 
 class App extends Component {
   constructor() {
@@ -11,14 +18,16 @@ class App extends Component {
     this.state = {
       movieList: [],
       searchResults: [],
-      searchTerm: ''
+      searchTerm: '',
+      userData: []
     }
   }
 
   componentDidMount(){
-    fetch('http://localhost:3000/api/v1/movies/')
+    fetch(OURAPI + 'movies')
     .then(res=>res.json())
     .then(movieList=>(this.setState({movieList})))
+    this.fetchUser()
   }
 
   submitHandler = (event) => {
@@ -27,7 +36,7 @@ class App extends Component {
   }
 
   fetchNewMovie = () => {
-    fetch(`http://www.omdbapi.com/?t=${this.state.searchTerm}`+'&apikey=a93a4d24')
+    fetch(OMDBAPI + this.state.searchTerm + APIKEY)
     .then(res => res.json())
     .then(searchResults => this.setState({searchResults}))
   }
@@ -49,11 +58,40 @@ class App extends Component {
     })
   }
 
+  fetchUser = () => {
+    fetch(OURAPI + "users/1")
+    .then(res => res.json())
+    .then(userData => this.setState({ userData }))
+  }
+
+
+  // addMovie = (user, movie) => {
+  //   const movieListDetails = {
+  //     user: `${user.id}`,
+  //     movie: `${movie.id}`
+  //   }
+  //   const sendToOurApi = {
+  //     headers: {'Content-type': 'application/json'},
+  //     method: 'POST',
+  //     body: JSON.stringify(movieListDetails)
+  //   }
+  //   fetch(OURAPI, sendToOurApi)
+  //     .then(res => res.json())
+  //     .then(console.log("Something"))
+  // }
+  //
+  // saveMovieHandler = (event) => {
+  //   this.addMovie()
+  // }
+
+
   render() {
+
     return (
     <div>
-      <SearchBox submitHandler={this.submitHandler} searchTermHandler={this.searchTermHandler} />
+      <SearchBox submitHandler={this.submitHandler} searchTermHandler={this.searchTermHandler} saveMovieHandler={this.saveMovie}/>
       <Movie searchResults={this.state.searchResults}/>
+      <User userData={this.state.userData}/>
     </div>
     );
   }

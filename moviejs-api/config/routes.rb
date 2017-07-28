@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
+      resources :movie_lists
+      resources :users
       resources :actor_movies
       resources :directors
       resources :actors

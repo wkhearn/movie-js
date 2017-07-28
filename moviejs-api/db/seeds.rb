@@ -25,3 +25,12 @@ Director.create(name: "Christopher Nolan")
 Movie.create(title: "The Dark Knight", director_id: 3, year: 2008 , rated: "PG-13", runtime: 152)
 Actor.create(name: "Heath Ledger")
 ActorMovie.create(actor_id: 4, movie_id: 3)
+
+User.create(username: "KennethWinfredHearn")
+MovieList.create(user_id: 1, movie_id: 1)
+MovieList.create(user_id: 1, movie_id: 2)
+MovieList.create(user_id: 1, movie_id: 3)
+
+User.create(username: "LarsonLaidlaw")
+MovieList.create(user_id: 2, movie_id: 1)
+MovieList.create(user_id: 2, movie_id: 2)
