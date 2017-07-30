@@ -1,100 +1,75 @@
-import React, { Component } from 'react';
-import './App.css';
-import SearchBox from './components/SearchBox'
-import Movie from './components/Movie'
-import User from './components/User'
+import React from 'react'
+import MovieList from './components/MovieList'
+import { Button } from 'semantic-ui-react'
 
-const OURAPI = "http://localhost:3000/api/v1/"
-const OMDBAPI = "http://www.omdbapi.com/?t=+"
-const APIKEY = "&apikey=a93a4d24"
-const OMDBPOSTERAPI = "http://www.img.omdbapi.com/?t="
-
-// TODO: Movie poster is from a different API
-// TODO: Poster API request needs to add "img" in front of link
-
-class App extends Component {
-  constructor() {
+class App extends React.Component {
+  constructor(){
     super()
     this.state = {
-      movieList: [],
-      searchResults: [],
+      userMovieList: [],
       searchTerm: '',
-      userData: []
+      dateSorter: false
     }
   }
 
   componentDidMount(){
-    fetch(OURAPI + 'movies')
-    .then(res=>res.json())
-    .then(movieList=>(this.setState({movieList})))
-    this.fetchUser()
+    fetch('http://localhost:3000/api/v1/users/1')
+    .then(response=>response.json())
+    .then(data=>(this.setState({userMovieList: data.movies})))
   }
 
-  submitHandler = (event) => {
-    event.preventDefault()
+  searchHandler = (event) => {
+    const searchTerm = event.target.value
+    this.setState({ searchTerm })
     this.movieFilter()
   }
 
-  fetchNewMovie = () => {
-    fetch(OMDBAPI + this.state.searchTerm + APIKEY)
-    .then(res => res.json())
-    .then(searchResults => this.setState({searchResults}))
-  }
-
   movieFilter = () => {
-    const searchResults = this.state.movieList.filter((movie)=>{
-      return movie.title.toUpperCase().includes(this.state.searchTerm.toUpperCase())
-    })
-    if (searchResults.length >= 1) {
-      this.setState({searchResults})
-    } else {
-      this.fetchNewMovie()
+    if (this.state.userMovieList) {
+      const filteredMovies = this.state.userMovieList.filter((movie) => {
+         return movie.title.toUpperCase().includes(this.state.searchTerm.toUpperCase()) ||
+         movie.year.toString().includes(this.state.searchTerm) ||
+         movie.rated.toUpperCase().includes(this.state.searchTerm.toUpperCase())
+      })
+      return filteredMovies
     }
   }
 
-  searchTermHandler = (event) => {
-    this.setState({
-      searchTerm: event.target.value
-    })
+  dateSorter = () => {
+    if (this.state.userMovieList) {
+      const sorted = this.movieFilter().sort((a, b) => {
+         var dateA = a.year
+         var dateB = b.year
+         if (dateA < dateB) {
+           return -1
+         }
+         if (dateA > dateB) {
+           return 1
+         }
+         return 0
+      })
+      this.setState({dateSorter: true})
+      return sorted
+    }
   }
 
-  fetchUser = () => {
-    fetch(OURAPI + "users/1")
-    .then(res => res.json())
-    .then(userData => this.setState({ userData }))
-  }
+  render(){
+    let listToPass = null
 
+    if (this.state.dateSorter) {
+      listToPass = this.movieFilter()
+    } else {
+      listToPass = this.dateSorter()
+    }
 
-  // addMovie = (user, movie) => {
-  //   const movieListDetails = {
-  //     user: `${user.id}`,
-  //     movie: `${movie.id}`
-  //   }
-  //   const sendToOurApi = {
-  //     headers: {'Content-type': 'application/json'},
-  //     method: 'POST',
-  //     body: JSON.stringify(movieListDetails)
-  //   }
-  //   fetch(OURAPI, sendToOurApi)
-  //     .then(res => res.json())
-  //     .then(console.log("Something"))
-  // }
-  //
-  // saveMovieHandler = (event) => {
-  //   this.addMovie()
-  // }
-
-
-  render() {
-
-    return (
-    <div>
-      <SearchBox submitHandler={this.submitHandler} searchTermHandler={this.searchTermHandler} saveMovieHandler={this.saveMovie}/>
-      <Movie searchResults={this.state.searchResults}/>
-      <User userData={this.state.userData}/>
-    </div>
-    );
+    return(
+      <div>
+        <MovieList userMovieList={listToPass}
+          searchHandler={this.searchHandler}
+          dateSorter={this.dateSorter}/>
+      </div>
+    )
   }
 }
 
-export default App;
+export default App

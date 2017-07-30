@@ -1,15 +1,14 @@
 import React from 'react'
+import { Input } from 'semantic-ui-react'
 
-const SearchBox = (props) => {
-  return(
-    <form onSubmit={props.submitHandler}>
-      Search for Movie: <input type="search" onChange={props.searchTermHandler}/>
-      <input type="button" value="Search Movie" />
-    <br></br>
-    <br></br>
-      <input type="button" onClick={props.saveMovieHandler} value="Save Movie"/>
-    </form>
+
+const Searchbox = (props) => {
+  return (
+    <Input
+    icon={{ name: 'search', circular: true, link: true }}
+    placeholder='Search...'
+    onChange={props.searchHandler}
+  />
   )
 }
-
-export default SearchBox
+export default Searchbox
