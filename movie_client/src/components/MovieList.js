@@ -1,7 +1,7 @@
 import React from 'react'
 import Movie from './Movie'
 import { Table, Container } from 'semantic-ui-react'
-import Searchbox from './Searchbox'
+import Searchbox from './SearchBox'
 
 const MovieList = (props) => {
 
