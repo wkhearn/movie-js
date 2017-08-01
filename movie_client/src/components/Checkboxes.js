@@ -3,12 +3,12 @@ import { Checkbox } from 'semantic-ui-react'
 
 const Checkboxes = (props) => {
   return(
-    <div>
+    <form onClick={props.checkBoxHandler}>
       <Checkbox label='G' />
       <Checkbox label='PG' />
-      <Checkbox label='PG-13' onChange={props.checkBoxHandler} />
+      <Checkbox label='PG-13'  />
       <Checkbox label='R' />
-    </div>
+    </form>
 
   )
 }

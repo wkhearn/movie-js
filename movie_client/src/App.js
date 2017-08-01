@@ -9,14 +9,15 @@ class App extends React.Component {
       userMovieList: [],
       searchTerm: '',
       dateSorter: false,
-      checked: false
+      checked: false,
+      checkValue: []
     }
   }
 
   componentDidMount(){
     fetch('http://localhost:3000/api/v1/users/1')
-    .then(response=>response.json())
-    .then(data=>(this.setState({userMovieList: data.movies})))
+      .then(response=>response.json())
+      .then(data=>(this.setState({userMovieList: data.movies})))
   }
 
   searchHandler = (event) => {
@@ -35,62 +36,33 @@ class App extends React.Component {
   }
 
   checkBoxFilter = (event) => {
-    if (event) {
-      const checkBoxFilter = this.searchFilter().filter((rating)=> {
-        return rating.rated === event.target.innerText
-      })
-      return checkBoxFilter
-    } else {
-      return this.searchFilter()
-    }
+    const checkBoxFilter = this.searchFilter().filter((rating)=> {
+      return this.state.checkValue.includes(rating.rated)
+    })
+    return checkBoxFilter
   }
 
   checkBoxHandler = (event) => {
-    this.checkBoxFilter(event)
-    this.checkToggler()
-  }
-
-  checkToggler = () => {
-    if (this.state.checked === true) {
-      this.setState({checked: false})
+    let value = event.target.innerText
+    if (this.state.checkValue.includes(value)){
+      let index = this.state.checkValue.indexOf(value)
+      this.state.checkValue.splice(index, 1)
     } else {
-      this.setState({checked: true})
+      this.state.checkValue.push(value)
     }
-  }
 
-  dateHandler = (event) => {
-    this.dateToggle()
-  }
-
-  dateToggle = () => {
-    if (this.state.dateSorter) {
-      this.setState({dateSorter: false})
+    if (this.state.checkValue.length > 0) {
+      this.setState({checked : true})
     } else {
-      this.setState({dateSorter: true})
+      this.setState({checked : false})
     }
-  }
-
-  dateSorter = () => {
-    const sorted = this.searchFilter().sort((a, b) => {
-       var dateA = a.year
-       var dateB = b.year
-       if (dateA < dateB) {
-         return -1
-       }
-       if (dateA > dateB) {
-         return 1
-       }
-       return 0
-    })
-    return sorted
+    this.render()
   }
 
   render(){
     let listToPass = null
 
-    if (this.state.dateSorter) {
-      listToPass = this.dateSorter()
-    } else if (this.state.checked){
+    if (this.state.checked) {
       listToPass = this.checkBoxFilter()
     } else {
       listToPass = this.searchFilter()
