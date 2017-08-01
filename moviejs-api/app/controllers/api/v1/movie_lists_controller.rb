@@ -11,9 +11,20 @@ class Api::V1::MovieListsController < ApplicationController
     end
   end
 
+  def update
+    movie = MovieList.find(params[:id])
+    movie.rating = movie_list_params["rating"]
+    movie.save
+    render json: {message: 'saved from the controller', status: 200}
+  end
+
+  def show
+    render json: movie = MovieList.find(params[:id])
+  end
+
   private
 
   def movie_list_params
-    params.require(:movie_list).permit(:movie_id, :user_id)
+    params.require(:movie_list).permit(:movie_id, :user_id, :rating)
   end
 end

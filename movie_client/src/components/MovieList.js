@@ -9,7 +9,8 @@ class MovieList extends React.Component {
     super(props)
     this.state = {
       dateToggle: "",
-      runTimeToggle: ""
+      runTimeToggle: "",
+      moveieRatings: {}
     }
   }
 
@@ -104,6 +105,12 @@ class MovieList extends React.Component {
     }
   }
 
+  componentDidMount(){
+    fetch('http://localhost:3000/api/v1/movie_lists')
+    .then(resp => resp.json())
+    .then(data => this.setState({movieRatings: data}))
+  }
+
 
 
   render(){
@@ -129,9 +136,10 @@ class MovieList extends React.Component {
             <Table.HeaderCell onClick={this.dateHandler}>Year</Table.HeaderCell>
             <Table.HeaderCell>Rated</Table.HeaderCell>
             <Table.HeaderCell onClick={this.runTimeHandler}>Runtime</Table.HeaderCell>
+            <Table.HeaderCell>Rating</Table.HeaderCell>
           </Table.Header>
           {this.props.userMovieList && movieList.map((movie)=> {
-            return <Movie movieDetails={movie} />
+            return <Movie movieDetails={movie} movieRatings={this.state.movieRatings} />
           })}
         </Table>
       </Container>

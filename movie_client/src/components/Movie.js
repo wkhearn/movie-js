@@ -6,7 +6,8 @@ class Movie extends React.Component {
 
   state = {
     actors: [],
-    director: []
+    director: [],
+    movieRating: 8
   }
 
   componentDidMount(){
@@ -18,12 +19,35 @@ class Movie extends React.Component {
       }))
   }
 
+  rateMovie = (event, data)=> {
+    let movieRating = data.rating
+    fetch('http://localhost:3000/api/v1/movie_lists/' + `${this.props.movieDetails.id}`,
+          {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "PUT",
+          body: JSON.stringify({'rating': movieRating})
+          })
+    .then(resp => resp.json())
+    .then(resp => console.log(resp))
+  }
+
+
   render(){
+    console.log(this.props.movieRatings)
+
+    let rating = this.props.movieRatings.map(rating => {
+      if (this.props.movieDetails.id === rating.movie_id) {
+        return rating.rating
+      }})
+
     return(
 
       <Table.Row>
           <Modal trigger={<Table.Cell><a style={{cursor:'pointer'}} >{this.props.movieDetails.title}</a></Table.Cell>} closeIcon='close'>
-            <Modal.Header>{this.props.movieDetails.title}</Modal.Header>
+            <Modal.Header>{this.props.movieDetails.title} <Rating maxRating={10} onRate={this.rateMovie}/> </Modal.Header>
 
               <Modal.Content image>
                 <Image wrapped size='big' src={this.props.movieDetails.poster} />
@@ -53,6 +77,7 @@ class Movie extends React.Component {
         <Table.Cell>{this.props.movieDetails.year}</Table.Cell>
         <Table.Cell>{this.props.movieDetails.rated}</Table.Cell>
         <Table.Cell>{this.props.movieDetails.runtime}</Table.Cell>
+        <Table.Cell>{rating}</Table.Cell>
 
       </Table.Row>
     )
@@ -60,3 +85,5 @@ class Movie extends React.Component {
 }
 
 export default Movie
+
+//}
