@@ -8,6 +8,8 @@ class App extends React.Component {
     this.state = {
       userMovieList: [],
       searchTerm: '',
+      APITitleTerm: '',
+      APIYearTerm: '',
       dateSorter: false,
       checked: false
     }
@@ -23,6 +25,31 @@ class App extends React.Component {
     const searchTerm = event.target.value
     this.setState({ searchTerm })
     this.searchFilter()
+  }
+
+  APITitleHandler = (event) => {
+    const APITitleTerm = event.target.value
+    this.setState({ APITitleTerm })
+  }
+
+  APIYearHandler = (event) => {
+    const APIYearTerm = event.target.value
+    this.setState({ APIYearTerm })
+  }
+
+  submitAPISearchHandler = (event) => {
+    event.preventDefault()
+    fetch("http://localhost:3000/api/v1/movies",
+          {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({'title': this.state.APITitleTerm, 'year': this.state.APIYearTerm})
+          })
+    .then(resp => resp.json())
+    .then(resp => console.log( resp ))
   }
 
   searchFilter = () => {
@@ -100,6 +127,10 @@ class App extends React.Component {
       <div>
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
+          APITitleHandler={this.APITitleHandler}
+          APIYearHandler={this.APIYearHandler}
+          submitAPISearchHandler={this.submitAPISearchHandler}
+          dateSorter={this.dateSorter}/>
           dateHandler={this.dateHandler}
           checkBoxHandler={this.checkBoxHandler}/>
       </div>
