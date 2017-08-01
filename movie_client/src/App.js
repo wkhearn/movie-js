@@ -9,7 +9,8 @@ class App extends React.Component {
     this.state = {
       userMovieList: [],
       searchTerm: '',
-      dateSorter: false
+      dateSorter: false,
+      checked: false
     }
   }
 
@@ -22,52 +23,80 @@ class App extends React.Component {
   searchHandler = (event) => {
     const searchTerm = event.target.value
     this.setState({ searchTerm })
-    this.movieFilter()
+    this.searchFilter()
   }
 
-  movieFilter = () => {
-    if (this.state.userMovieList) {
+  searchFilter = () => {
       const filteredMovies = this.state.userMovieList.filter((movie) => {
-         return movie.title.toUpperCase().includes(this.state.searchTerm.toUpperCase()) ||
-         movie.year.toString().includes(this.state.searchTerm) ||
-         movie.rated.toUpperCase().includes(this.state.searchTerm.toUpperCase())
+       return movie.title.toUpperCase().includes(this.state.searchTerm.toUpperCase()) ||
+       movie.year.toString().includes(this.state.searchTerm) ||
+       movie.rated.toUpperCase().includes(this.state.searchTerm.toUpperCase())
+    })
+    return filteredMovies
+  }
+
+  checkBoxFilter = (event) => {
+    if (event) {
+      const checkBoxFilter = this.searchFilter().filter((rating)=> {
+        return rating.rated === event.target.innerText
       })
-      return filteredMovies
+      return checkBoxFilter
+    } else {
+      return this.searchFilter()
     }
   }
+
+  checkBoxHandler = (event) => {
+    this.checkBoxFilter(event)
+    this.checkToggler()
+  }
+
+  checkToggler = () => {
+    if (this.state.checked === true) {
+      this.setState({checked: false})
+    } else {
+      this.setState({checked: true})
+    }
+  }
+
+  dateHandler = (event) => {
+    this.dateToggle()
+  }
+
+  dateToggle = () => {
+    if (this.state.dateSorter) {
+      this.setState({dateSorter: false})
+    } else {
+      this.setState({dateSorter: true})
+    }
+  }
+
 
   dateSorter = () => {
-    if (this.state.userMovieList) {
-      const sorted = this.movieFilter().sort((a, b) => {
-         var dateA = a.year
-         var dateB = b.year
-         if (dateA < dateB) {
-           return -1
-         }
-         if (dateA > dateB) {
-           return 1
-         }
-         return 0
-      })
-      this.setState({dateSorter: true})
-      return sorted
-    }
+    const sorted = this.searchFilter().sort((a, b) => {
+       var dateA = a.year
+       var dateB = b.year
+       if (dateA < dateB) {
+         return -1
+       }
+       if (dateA > dateB) {
+         return 1
+       }
+       return 0
+    })
+    return sorted
   }
-
-  // modalTrigger = (event) => {
-  //   fetch(OMDBPOSTERAPI)
-  //   .then(response=>response.json())
-  //   .then(data=>(this.setState({userMovieList: data.movies})))
-  // }
 
 
   render(){
     let listToPass = null
 
     if (this.state.dateSorter) {
-      listToPass = this.movieFilter()
-    } else {
       listToPass = this.dateSorter()
+    } else if (this.state.checked){
+      listToPass = this.checkBoxFilter()
+    } else {
+      listToPass = this.searchFilter()
     }
 
     return(
@@ -75,7 +104,8 @@ class App extends React.Component {
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
           dateSorter={this.dateSorter}/>
-        {/* <MovieModal modalTrigger={this.modalTrigger} /> */}
+          dateHandler={this.dateHandler}
+          checkBoxHandler={this.checkBoxHandler}/>
       </div>
     )
   }
