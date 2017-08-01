@@ -59,8 +59,6 @@ class MovieList extends React.Component {
     }
   }
 
-  // ************************
-
   runTimeHandler = (event) => {
     this.runTimeSorter()
     this.runTimeToggle()

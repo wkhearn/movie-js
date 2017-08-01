@@ -1,6 +1,7 @@
 import React from 'react'
 import MovieList from './components/MovieList'
-import { Button } from 'semantic-ui-react'
+import NavBar from './components/NavBar'
+
 
 class App extends React.Component {
   constructor(){
@@ -8,9 +9,12 @@ class App extends React.Component {
     this.state = {
       userMovieList: [],
       searchTerm: '',
+      APITitleTerm: '',
+      APIYearTerm: '',
       dateSorter: false,
       checked: false,
-      checkValue: []
+      checkValue: [],
+      currentSearchMovie: {}
     }
   }
 
@@ -24,6 +28,34 @@ class App extends React.Component {
     const searchTerm = event.target.value
     this.setState({ searchTerm })
     this.searchFilter()
+  }
+
+  APITitleHandler = (event) => {
+    const APITitleTerm = event.target.value
+    this.setState({ APITitleTerm })
+  }
+
+  APIYearHandler = (event) => {
+    const APIYearTerm = event.target.value
+    this.setState({ APIYearTerm })
+  }
+
+  submitAPISearchHandler = (event) => {
+    event.preventDefault()
+    fetch("http://localhost:3000/api/v1/movies",
+          {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({'title': this.state.APITitleTerm, 'year': this.state.APIYearTerm})
+          })
+    .then(resp => resp.json())
+    .then(resp => this.setState({
+      userMovieList: [...this.state.userMovieList, resp],
+      currentSearchMovie: resp
+    }))
   }
 
   searchFilter = () => {
@@ -59,6 +91,23 @@ class App extends React.Component {
     this.render()
   }
 
+
+  dateSorter = () => {
+    const sorted = this.searchFilter().sort((a, b) => {
+       var dateA = a.year
+       var dateB = b.year
+       if (dateA < dateB) {
+         return -1
+       }
+       if (dateA > dateB) {
+         return 1
+       }
+       return 0
+    })
+    return sorted
+  }
+
+
   render(){
     let listToPass = null
 
@@ -70,8 +119,14 @@ class App extends React.Component {
 
     return(
       <div>
+        <NavBar
+          currentSearchMovie={this.state.currentSearchMovie}
+          APITitleHandler={this.APITitleHandler}
+          APIYearHandler={this.APIYearHandler}
+          submitAPISearchHandler={this.submitAPISearchHandler}/>
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
+          dateSorter={this.dateSorter}
           dateHandler={this.dateHandler}
           checkBoxHandler={this.checkBoxHandler}/>
       </div>
