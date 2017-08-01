@@ -1,6 +1,5 @@
 import React from 'react'
-import { Table } from 'semantic-ui-react'
-import { Header, Icon, Image, Modal } from 'semantic-ui-react'
+import { Table, Image, Modal } from 'semantic-ui-react'
 
 
 class Movie extends React.Component {
@@ -23,7 +22,7 @@ class Movie extends React.Component {
     return(
 
       <Table.Row>
-          <Modal trigger={<Table.Cell><a href="#">{this.props.movieDetails.title}</a></Table.Cell>} closeIcon='close'>
+          <Modal trigger={<Table.Cell><a style={{cursor:'pointer'}} >{this.props.movieDetails.title}</a></Table.Cell>} closeIcon='close'>
             <Modal.Header>{this.props.movieDetails.title}</Modal.Header>
               <Modal.Content image>
                 <Image wrapped size='big' src={this.props.movieDetails.poster} />

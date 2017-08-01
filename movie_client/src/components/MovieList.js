@@ -2,7 +2,6 @@ import React from 'react'
 import Movie from './Movie'
 import { Table, Container } from 'semantic-ui-react'
 import Searchbox from './SearchBox'
-import APISearchBox from './APISearchBox'
 import Checkboxes from './Checkboxes'
 
 const MovieList = (props) => {

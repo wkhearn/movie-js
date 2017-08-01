@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'semantic-ui-react'
 import MovieList from './components/MovieList'
 import NavBar from './components/NavBar'
 
@@ -13,7 +12,8 @@ class App extends React.Component {
       APITitleTerm: '',
       APIYearTerm: '',
       dateSorter: false,
-      checked: false
+      checked: false,
+      currentSearchMovie: {}
     }
   }
 
@@ -52,7 +52,8 @@ class App extends React.Component {
           })
     .then(resp => resp.json())
     .then(resp => this.setState({
-      userMovieList: [...this.state.userMovieList, resp]
+      userMovieList: [...this.state.userMovieList, resp],
+      currentSearchMovie: resp
     }))
   }
 
@@ -131,7 +132,11 @@ class App extends React.Component {
 
     return(
       <div>
-        <NavBar APITitleHandler={this.APITitleHandler} APIYearHandler={this.APIYearHandler} submitAPISearchHandler={this.submitAPISearchHandler}/>
+        <NavBar
+          currentSearchMovie={this.state.currentSearchMovie}
+          APITitleHandler={this.APITitleHandler}
+          APIYearHandler={this.APIYearHandler}
+          submitAPISearchHandler={this.submitAPISearchHandler}/>
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
           dateSorter={this.dateSorter}
