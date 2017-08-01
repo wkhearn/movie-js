@@ -2,12 +2,14 @@ import React from 'react'
 import Movie from './Movie'
 import { Table, Container } from 'semantic-ui-react'
 import Searchbox from './SearchBox'
+import APISearchBox from './APISearchBox'
 
 const MovieList = (props) => {
 
 
   return(
     <Container>
+      <APISearchBox APITitleHandler={props.APITitleHandler} APIYearHandler={props.APIYearHandler} submitAPISearchHandler={props.submitAPISearchHandler}/><br/><br/>
       <Searchbox searchHandler={props.searchHandler}/>
       <Table color="yellow" padded={true}>
         <Table.Header>
