@@ -50,7 +50,9 @@ class App extends React.Component {
           body: JSON.stringify({'title': this.state.APITitleTerm, 'year': this.state.APIYearTerm})
           })
     .then(resp => resp.json())
-    .then(resp => console.log( resp ))
+    .then(resp => this.setState({
+      userMovieList: [...this.state.userMovieList, resp]
+    }))
   }
 
   searchFilter = () => {
@@ -133,7 +135,7 @@ class App extends React.Component {
           APITitleHandler={this.APITitleHandler}
           APIYearHandler={this.APIYearHandler}
           submitAPISearchHandler={this.submitAPISearchHandler}
-          dateSorter={this.dateSorter}/>
+          dateSorter={this.dateSorter}
           dateHandler={this.dateHandler}
           checkBoxHandler={this.checkBoxHandler}/>
       </div>
