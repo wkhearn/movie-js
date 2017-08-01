@@ -2,13 +2,12 @@ import React from 'react'
 import Movie from './Movie'
 import { Table, Container } from 'semantic-ui-react'
 import Searchbox from './SearchBox'
-import APISearchBox from './APISearchBox'
 import Checkboxes from './Checkboxes'
 
 const MovieList = (props) => {
+  // <APISearchBox APITitleHandler={props.APITitleHandler} APIYearHandler={props.APIYearHandler} submitAPISearchHandler={props.submitAPISearchHandler}/><br/><br/>
   return(
     <Container>
-      <APISearchBox APITitleHandler={props.APITitleHandler} APIYearHandler={props.APIYearHandler} submitAPISearchHandler={props.submitAPISearchHandler}/><br/><br/>
       <Searchbox searchHandler={props.searchHandler}/>
       <Checkboxes checkBoxHandler={props.checkBoxHandler}/>
       <Table color="yellow" padded={true}>

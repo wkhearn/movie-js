@@ -1,6 +1,6 @@
 import React from 'react'
 import MovieList from './components/MovieList'
-import { Button } from 'semantic-ui-react'
+import NavBar from './components/NavBar'
 
 
 class App extends React.Component {
@@ -12,7 +12,8 @@ class App extends React.Component {
       APITitleTerm: '',
       APIYearTerm: '',
       dateSorter: false,
-      checked: false
+      checked: false,
+      currentSearchMovie: {}
     }
   }
 
@@ -50,7 +51,10 @@ class App extends React.Component {
           body: JSON.stringify({'title': this.state.APITitleTerm, 'year': this.state.APIYearTerm})
           })
     .then(resp => resp.json())
-    .then(resp => console.log( resp ))
+    .then(resp => this.setState({
+      userMovieList: [...this.state.userMovieList, resp],
+      currentSearchMovie: resp
+    }))
   }
 
   searchFilter = () => {
@@ -128,12 +132,14 @@ class App extends React.Component {
 
     return(
       <div>
-        <MovieList userMovieList={listToPass}
-          searchHandler={this.searchHandler}
+        <NavBar
+          currentSearchMovie={this.state.currentSearchMovie}
           APITitleHandler={this.APITitleHandler}
           APIYearHandler={this.APIYearHandler}
-          submitAPISearchHandler={this.submitAPISearchHandler}
-          dateSorter={this.dateSorter}/>
+          submitAPISearchHandler={this.submitAPISearchHandler}/>
+        <MovieList userMovieList={listToPass}
+          searchHandler={this.searchHandler}
+          dateSorter={this.dateSorter}
           dateHandler={this.dateHandler}
           checkBoxHandler={this.checkBoxHandler}/>
       </div>

@@ -1,14 +1,14 @@
 import React from 'react'
-import { Form, Input, Button } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
+// <Form.Button size='small' type='submit' content='Search' />
 
 const APISearchBox = (props) => {
   return (
-    <Form onSubmit={props.submitAPISearchHandler}>
+    <Form fitted onSubmit={props.submitAPISearchHandler}>
       <Form.Group>
-        <Form.Input placeholder='Title...' name='name' onChange={props.APITitleHandler} />
-        <Form.Input placeholder='Year...' name='email' onChange={props.APIYearHandler} />
-        <Form.Button type='submit' content='Search' />
+        <Form.Input placeholder='Search Movies: Title...' name='title' onChange={props.APITitleHandler} />
+        <Form.Input placeholder='Year...' name='year' onChange={props.APIYearHandler} />
       </Form.Group>
     </Form>
   )
