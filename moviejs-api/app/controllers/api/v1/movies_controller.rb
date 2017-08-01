@@ -44,7 +44,7 @@ class Api::V1::MoviesController < ApplicationController
       actors.map { |actor| ActorMovie.create(actor_id: actor.id, movie_id: movie.id) }
 
       # Associates the movie with ther user. This needs to be changed to current_user_id instead of just 1.
-      movie_save = MovieList.create(movie_id: movie.id, user_id: 1)
+      # movie_save = MovieList.create(movie_id: movie.id, user_id: 1)
 
       render json: movie
     end

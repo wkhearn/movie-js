@@ -53,8 +53,24 @@ class App extends React.Component {
           })
     .then(resp => resp.json())
     .then(resp => this.setState({
-      userMovieList: [...this.state.userMovieList, resp],
       currentSearchMovie: resp
+    }))
+  }
+
+  saveMovieHandler = (event) => {
+    event.preventDefault()
+    fetch("http://localhost:3000/api/v1/movie_lists",
+          {
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: "POST",
+          body: JSON.stringify({'movie_id': this.state.currentSearchMovie.id})
+          })
+    .then(resp => resp.json())
+    .then(resp => this.setState({
+      userMovieList: [...this.state.userMovieList, resp]
     }))
   }
 
@@ -123,7 +139,8 @@ class App extends React.Component {
           currentSearchMovie={this.state.currentSearchMovie}
           APITitleHandler={this.APITitleHandler}
           APIYearHandler={this.APIYearHandler}
-          submitAPISearchHandler={this.submitAPISearchHandler}/>
+          submitAPISearchHandler={this.submitAPISearchHandler}
+          saveMovieHandler={this.saveMovieHandler} />
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
           dateSorter={this.dateSorter}

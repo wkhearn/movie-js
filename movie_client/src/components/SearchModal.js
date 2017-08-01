@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Image, Modal } from 'semantic-ui-react'
+import { Icon, Button, Image, Modal } from 'semantic-ui-react'
 
 const SearchModal = (props) => (
   <Modal trigger={<Button onClick={props.submitAPISearchHandler}>Search</Button>}>
@@ -26,6 +26,9 @@ const SearchModal = (props) => (
         </Modal.Description>
     </Modal.Content>) : null }
     <Modal.Actions>
+      <Button primary onClick={props.saveMovieHandler}>
+        Save <Icon name='right chevron' />
+      </Button>
     </Modal.Actions>
     </Modal>
 )

@@ -20,7 +20,10 @@ export default class NavBar extends Component {
 
         <Menu.Item name='search' fitted active={activeItem === 'search'} onClick={this.handleItemClick}>
           <APISearchBox APITitleHandler={this.props.APITitleHandler} APIYearHandler={this.props.APIYearHandler} submitAPISearchHandler={this.props.submitAPISearchHandler}/>
-          <SearchModal submitAPISearchHandler={this.props.submitAPISearchHandler} currentSearchMovie={this.props.currentSearchMovie}/>
+          <SearchModal
+            submitAPISearchHandler={this.props.submitAPISearchHandler}
+            currentSearchMovie={this.props.currentSearchMovie}
+            saveMovieHandler={this.props.saveMovieHandler}/>
         </Menu.Item>
 
         <Menu.Item position='right' name='sign-in' active={activeItem === 'sign-in'} onClick={this.handleItemClick}>
