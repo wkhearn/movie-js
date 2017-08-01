@@ -2,6 +2,7 @@ import React from 'react'
 import MovieList from './components/MovieList'
 import { Button } from 'semantic-ui-react'
 
+
 class App extends React.Component {
   constructor(){
     super()
@@ -97,6 +98,7 @@ class App extends React.Component {
     }
   }
 
+
   dateSorter = () => {
     const sorted = this.searchFilter().sort((a, b) => {
        var dateA = a.year
@@ -111,6 +113,7 @@ class App extends React.Component {
     })
     return sorted
   }
+
 
   render(){
     let listToPass = null

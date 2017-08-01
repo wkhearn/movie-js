@@ -6,7 +6,6 @@ import APISearchBox from './APISearchBox'
 import Checkboxes from './Checkboxes'
 
 const MovieList = (props) => {
-  console.log(props.userMovieList)
   return(
     <Container>
       <APISearchBox APITitleHandler={props.APITitleHandler} APIYearHandler={props.APIYearHandler} submitAPISearchHandler={props.submitAPISearchHandler}/><br/><br/>
