@@ -2,7 +2,6 @@ import React from 'react'
 import MovieList from './components/MovieList'
 import NavBar from './components/NavBar'
 
-
 class App extends React.Component {
   constructor(){
     super()
@@ -72,6 +71,7 @@ class App extends React.Component {
     .then(resp => this.setState({
       userMovieList: [...this.state.userMovieList, resp]
     }))
+    window.location.reload()
   }
 
   searchFilter = () => {

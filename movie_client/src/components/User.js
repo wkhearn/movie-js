@@ -16,15 +16,6 @@ class User extends React.Component {
     }
   }
 
-  // render() {
-  //   return (
-  //     <div>
-  //       {this.shouldRender()}
-  //     </div>
-  //   )
-  // }
-
-
   render(){
     return this.shouldRender()
   }

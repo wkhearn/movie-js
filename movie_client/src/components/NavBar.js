@@ -27,7 +27,7 @@ export default class NavBar extends Component {
         </Menu.Item>
 
         <Menu.Item position='right' name='sign-in' active={activeItem === 'sign-in'} onClick={this.handleItemClick}>
-          Sign-in
+          <strong>Sign-in</strong>
         </Menu.Item>
       </Menu>
     )
