@@ -1,6 +1,7 @@
 import React from 'react'
-import MovieList from './components/MovieList'
 import { Button } from 'semantic-ui-react'
+import MovieList from './components/MovieList'
+import NavBar from './components/NavBar'
 
 
 class App extends React.Component {
@@ -130,11 +131,9 @@ class App extends React.Component {
 
     return(
       <div>
+        <NavBar APITitleHandler={this.APITitleHandler} APIYearHandler={this.APIYearHandler} submitAPISearchHandler={this.submitAPISearchHandler}/>
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
-          APITitleHandler={this.APITitleHandler}
-          APIYearHandler={this.APIYearHandler}
-          submitAPISearchHandler={this.submitAPISearchHandler}
           dateSorter={this.dateSorter}
           dateHandler={this.dateHandler}
           checkBoxHandler={this.checkBoxHandler}/>
