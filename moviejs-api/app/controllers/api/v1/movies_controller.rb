@@ -35,7 +35,7 @@ class Api::V1::MoviesController < ApplicationController
       actors = new_json["Actors"].split(', ').map { |actor| Actor.find_or_create_by(name: actor)}
 
       # Create movie and associate with director
-      movie = Movie.create(title: new_json["Title"], director_id: director.id, year: new_json["Year"], rated: new_json["Rated"], runtime: new_json["Runtime"].split(' ')[0].to_i)
+      movie = Movie.create(title: new_json["Title"], director_id: director.id, year: new_json["Year"], rated: new_json["Rated"], runtime: new_json["Runtime"].split(' ')[0].to_i, poster: new_json["Poster"], plot: new_json["Plot"])
 
       # Associate actors with movies via ActorMovies
       actors.map { |actor| ActorMovie.create(actor_id: actor.id, movie_id: movie.id) }
@@ -49,7 +49,9 @@ class Api::V1::MoviesController < ApplicationController
 
     # save movie to user movie_lists
 
-    render json: {message: 'you did it', status: 200}
+    render json: {
+      message: 'you did it',
+      status: 200}
   end
 
   private

@@ -4,8 +4,6 @@ import { Table, Container } from 'semantic-ui-react'
 import Searchbox from './SearchBox'
 
 const MovieList = (props) => {
-
-
   return(
     <Container>
       <Searchbox searchHandler={props.searchHandler}/>

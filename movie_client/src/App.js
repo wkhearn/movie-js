@@ -2,6 +2,7 @@ import React from 'react'
 import MovieList from './components/MovieList'
 import { Button } from 'semantic-ui-react'
 
+
 class App extends React.Component {
   constructor(){
     super()
@@ -53,6 +54,13 @@ class App extends React.Component {
     }
   }
 
+  // modalTrigger = (event) => {
+  //   fetch(OMDBPOSTERAPI)
+  //   .then(response=>response.json())
+  //   .then(data=>(this.setState({userMovieList: data.movies})))
+  // }
+
+
   render(){
     let listToPass = null
 
@@ -67,6 +75,7 @@ class App extends React.Component {
         <MovieList userMovieList={listToPass}
           searchHandler={this.searchHandler}
           dateSorter={this.dateSorter}/>
+        {/* <MovieModal modalTrigger={this.modalTrigger} /> */}
       </div>
     )
   }
